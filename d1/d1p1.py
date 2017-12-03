@@ -9,8 +9,7 @@ test_cases = [
 def captcha(digits):
     return sum(
         int(digit)
-        for digit, next_digit
-        in zip(digits, digits[1:] + digits[:1])
+        for digit, next_digit in zip(digits, digits[1:] + digits[:1])
         if digit == next_digit
     )
 

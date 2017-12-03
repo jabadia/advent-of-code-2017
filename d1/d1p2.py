@@ -11,8 +11,7 @@ def captcha(digits):
     halfway = int(len(digits) / 2)
     return sum(
         int(digit)
-        for digit, next_digit
-        in zip(digits, digits[halfway:] + digits[:halfway])
+        for digit, next_digit in zip(digits, digits[halfway:] + digits[:halfway])
         if digit == next_digit
     )
 
