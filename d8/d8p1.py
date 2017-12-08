@@ -1010,42 +1010,41 @@ wby inc -397 if ntk >= -2941
 nm dec 907 if qen == 2233
 """
 
+operators = {
+    '<': lambda a, b: a < b,
+    '>': lambda a, b: a > b,
+    '==': lambda a, b: a == b,
+    '!=': lambda a, b: a != b,
+    '<=': lambda a, b: a <= b,
+    '>=': lambda a, b: a >= b,
+    'inc': lambda a, b: a + b,
+    'dec': lambda a, b: a - b,
+}
+
 
 def execute(program):
     registers = {}
     for line in program.strip().split('\n'):
-        print(line)
-        # groups = re.match(r'^([a-z]+) inc|dec (-?\d+) if ([a-z]+) (<|>|==|!=|<=|>=) (-?\d+)', line.strip())
-        groups = re.match(r'^([a-z]+) ((inc)|(dec)) (-?\d+) if ([a-z]+) (<|>|(==)|(!=)|(<=)|(>=)) (-?\d+)',
-                          line.strip())
-        assert groups, 'no match %s' % (line,)
-        register, operator, operand, cond_register, cond_operator, cond_operand = \
-            groups[1], \
-            groups[2], \
-            int(groups[5]), \
-            groups[6], \
-            groups[7], \
-            int(groups[12])
+        operation, condition = line.strip().split(' if ')
+        register, operator, operand = operation.split(' ')
+        cond_register, cond_operator, cond_operand = condition.split(' ')
+        operand = int(operand)
+        cond_operand = int(cond_operand)
 
         print(register, operator, operand, cond_register, cond_operator, cond_operand)
 
-        operators = {
-            '<': lambda a, b: a < b,
-            '>': lambda a, b: a > b,
-            '==': lambda a, b: a == b,
-            '!=': lambda a, b: a != b,
-            '<=': lambda a, b: a <= b,
-            '>=': lambda a, b: a >= b,
-            'inc': lambda a, b: a+b,
-            'dec': lambda a, b: a-b,
-        }
-        cond_value = registers.get(cond_register, 0)
-        condition = operators[cond_operator](cond_value, cond_operand)
+        condition = operators[cond_operator](
+            registers.get(cond_register, 0),
+            cond_operand
+        )
 
         if condition:
-            value = registers.get(register, 0)
-            registers[register] = operators[operator](value, operand)
+            registers[register] = operators[operator](
+                registers.get(register, 0),
+                operand
+            )
 
     print("max:", max(registers.values()))
+
 
 execute(PROGRAM)
