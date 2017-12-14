@@ -54,4 +54,5 @@ for c in TEST_CASES:
     actual = solve(c.case)
     assert c.expected == actual
 
-print(solve(my_puzzle))
+if __name__ == '__main__':
+    print(solve(my_puzzle))
