@@ -38,6 +38,18 @@ if __name__ == '__main__':
     for member_id, member in leaderboard['members'].items():
         print(member['name'])
         for day, timestamps in sorted(member['completion_day_level'].items(), key=lambda p: int(p[0])):
-            silver = dateutil.parser.parse(timestamps['1']['get_star_ts']).astimezone(local_timezone)
-            gold = dateutil.parser.parse(timestamps['2']['get_star_ts']).astimezone(local_timezone)
-            print(day, silver.strftime(DATE_FORMAT), gold.strftime(DATE_FORMAT), gold-silver)
+            try:
+                silver = dateutil.parser.parse(timestamps['1']['get_star_ts']).astimezone(local_timezone)
+                silver_date = silver.strftime(DATE_FORMAT)
+            except KeyError:
+                silver_date = '-'
+
+            try:
+                gold = dateutil.parser.parse(timestamps['2']['get_star_ts']).astimezone(local_timezone)
+                gold_date = gold.strftime(DATE_FORMAT)
+                diff = gold-silver
+            except KeyError:
+                gold_date = '-'
+                diff = '-'
+
+            print(day, silver_date, gold_date, diff)
