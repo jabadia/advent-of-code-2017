@@ -1,4 +1,6 @@
 .idea
 .cache
 secrets.py
+*.pyc
+
 
