@@ -67,16 +67,15 @@ def adjacent(board, pos):
 
 def solve(N):
     board = {}
-    pos = Vector(0, 0)
-    direction = E
+    pos, dir = Vector(0, 0), E
     n = 1
     board[pos] = n
     while board[pos] <= N:
         n += 1
-        pos = advance(pos, direction)
+        pos = advance(pos, dir)
         board[pos] = sum(adjacent(board, pos))
-        if not board.get(advance(pos, turn(direction, LEFT)), None):
-            direction = turn(direction, LEFT)
+        if not board.get(advance(pos, turn(dir, LEFT)), None):
+            dir = turn(dir, LEFT)
 
     return board[pos]
 

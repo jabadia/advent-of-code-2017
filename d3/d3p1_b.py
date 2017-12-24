@@ -70,16 +70,15 @@ def advance(pos, direction):
 
 def solve(N):
     board = {}
-    pos = Vector(0, 0)
-    direction = E
+    pos, dir = Vector(0, 0), E
     n = 1
     board[pos] = n
     while n < N:
         n += 1
-        pos = advance(pos, direction)
+        pos = advance(pos, dir)
         board[pos] = n
-        if not board.get(advance(pos, turn(direction, LEFT)), None):
-            direction = turn(direction, LEFT)
+        if not board.get(advance(pos, turn(dir, LEFT)), None):
+            dir = turn(dir, LEFT)
 
     return abs(pos[0]) + abs(pos[1])
 

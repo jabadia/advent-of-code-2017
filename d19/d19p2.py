@@ -87,15 +87,10 @@ def next_pos(maze, pos, dir):
 def solve(input):
     maze = list(filter(None, input.split('\n')))
 
-    pos = Vector(maze[0].index('|'), 0)
-    dir = S
-    visited = ''
+    pos, dir = Vector(maze[0].index('|'), 0), S
     count = 0
 
     while pos:
-        current = get_value(maze, pos)
-        if current.isalpha():
-            visited += current
         pos, dir = next_pos(maze, pos, dir)
         count += 1
 
